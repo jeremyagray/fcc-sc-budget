@@ -1,5 +1,6 @@
 import math
 
+
 class Category:
     def __init__(self, category):
         self.category = category
@@ -45,7 +46,7 @@ class Category:
         balance = 0.00
         for transaction in self.ledger:
             balance += transaction['amount']
-        
+
         return balance
 
     def get_total_spent(self):
@@ -53,8 +54,9 @@ class Category:
         for transaction in self.ledger:
             if transaction['amount'] < 0:
                 spent += transaction['amount']
-        
+
         return -spent
+
 
 def create_spend_chart(categories):
     graph = []
@@ -64,10 +66,14 @@ def create_spend_chart(categories):
         spent = category.get_total_spent()
         total += spent
         graph.append({'category': category, 'amount': spent, 'percent': 0})
-    # Calculate the percent spent of total spent for each category, rounded down to the nearest 10%.
+    # Calculate the percent spent of total spent for each category,
+    # rounded down to the nearest 10%.
     new_graph = []
     for bar in graph:
-      new_graph.append({'category': bar['category'], 'amount': bar['amount'], 'percent': math.floor((bar['amount'] * 100 / total) / 10) * 10})
+        new_graph.append({
+            'category': bar['category'],
+            'amount': bar['amount'],
+            'percent': math.floor((bar['amount'] * 100 / total) / 10) * 10})
     cs = ''
     cs += 'Percentage spent by category\n'
 
@@ -102,11 +108,12 @@ def create_spend_chart(categories):
     cs += '\n'.join(lines)
 
     return cs
-    
+
+
 def get_longest_category_length(categories):
     length = 0
     for category in categories:
         mine = len(category.category.strip())
         if mine > length:
-          length = mine
+            length = mine
     return length
